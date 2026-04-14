@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Ben 10 Omniversal DNA Lab</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #00ff00;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .lab-container {
+            border: 5px solid #00ff00;
+            border-radius: 20px;
+            padding: 20px;
+            background: rgba(0, 50, 0, 0.8);
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 0 20px #00ff00;
+        }
+        .slot-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        .slot {
+            width: 150px;
+            height: 150px;
+            border: 3px dashed #00ff00;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+        button {
+            background: #00ff00;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.2em;
+            border-radius: 5px;
+        }
+        button:hover { background: #00cc00; }
+        .alien-list {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .alien-card {
+            border: 1px solid #00ff00;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #result-display {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #fff;
+            text-shadow: 0 0 10px #00ff00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lab-container">
+        <h1>🧪 OMNIVERSAL DNA LAB 🧪</h1>
+        <p>Chào mừng Phụ tá! Hãy chọn 2 DNA để bắt đầu lai tạo.</p>
+
+        <div class="slot-container">
+            <div id="slot1" class="slot">DNA 1</div>
+            <div style="font-size: 3em;">+</div>
+            <div id="slot2" class="slot">DNA 2</div>
+        </div>
+
+        <button onclick="fuseDNA()">LAI TẠO BIẾN THỂ (FUSE)</button>
+
+        <div id="result-display">Đang chờ lệnh...</div>
+
+        <h3>KHO LƯU TRỮ DNA:</h3>
+        <div class="alien-list" id="inventory">
+            </div>
+    </div>
+
+    <script>
+        const aliens = [
+            { name: "Heatblast", element: "Lửa" },
+            { name: "Four Arms", element: "Sức mạnh" },
+            { name: "XLR8", element: "Tốc độ" },
+            { name: "Grey Matter", element: "Trí tuệ" },
+            { name: "Diamondhead", element: "Tinh thể" }
+        ];
+
+        let selected = [];
+
+        function init() {
+            const inv = document.getElementById('inventory');
+            aliens.forEach(alien => {
+                let div = document.createElement('div');
+                div.className = 'alien-card';
+                div.innerText = alien.name;
+                div.onclick = () => selectAlien(alien);
+                inv.appendChild(div);
+            });
+        }
+
+        function selectAlien(alien) {
+            if (selected.length < 2) {
+                selected.push(alien);
+                document.getElementById(`slot${selected.length}`).innerText = alien.name;
+            } else {
+                alert("Đã đủ 2 mẫu! Nhấn FUSE hoặc Reset.");
+                selected = [];
+                document.getElementById('slot1').innerText = "DNA 1";
+                document.getElementById('slot2').innerText = "DNA 2";
+            }
+        }
+
+        function fuseDNA() {
+            if (selected.length < 2) {
+                alert("Vui lòng chọn đủ 2 DNA!");
+                return;
+            }
+            const result = document.getElementById('result-display');
+            result.innerText = "⚡ ĐANG PHÂN TÍCH... ⚡";
+            
+            setTimeout(() => {
+                const fusionName = selected[0].name.substring(0, 4) + selected[1].name.substring(selected[1].name.length - 4);
+                result.innerHTML = `KẾT QUẢ: <br> <span style="color:#00ff00">${fusionName.toUpperCase()}</span> <br> (Hệ: ${selected[0].element} + ${selected[1].element})`;
+                selected = [];
+                document.getElementById('slot1').innerText = "DNA 1";
+                document.getElementById('slot2').innerText = "DNA 2";
+            }, 1000);
+        }
+
+        init();
+    </script>
+</body>
+</html>
